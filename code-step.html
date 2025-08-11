@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Enter Code</title>
+</head>
+<body>
+  <h1>Enter MFA Code</h1>
+  <p>To get the code, open the external provider page:</p>
+  <a id="open-code-link" href="code-provider.html" target="_blank">open page</a>
+
+  <div style="margin-top:20px;">
+    <label for="code">Code:</label>
+    <input id="code" type="text" />
+    <button id="code-next-btn" onclick="goToMasked()">Next</button>
+  </div>
+
+  <script>
+    function goToMasked() {
+      location.href = 'masked.html';
+    }
+  </script>
+</body>
+</html>
