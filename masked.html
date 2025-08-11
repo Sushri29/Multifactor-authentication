@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Masked Password</title>
+  <style>
+    input.masked-input { width: 30px; text-align:center; margin-right:4px; }
+    .muted { color: gray; }
+  </style>
+</head>
+<body>
+  <h1>Enter masked password characters</h1>
+  <p>The system asks for specific characters of your password. Fill only the enabled boxes.</p>
+
+  <!-- For this demo we assume the real password is "P@ssw0rd" (8 chars) -->
+  <!-- We'll present 8 small inputs; some will be disabled (masked) randomly on load -->
+  <div id="positions">
+    <!-- data-pos is 1-based index into the password -->
+    <input class="masked-input" data-pos="1" maxlength="1" />
+    <input class="masked-input" data-pos="2" maxlength="1" />
+    <input class="masked-input" data-pos="3" maxlength="1" />
+    <input class="masked-input" data-pos="4" maxlength="1" />
+    <input class="masked-input" data-pos="5" maxlength="1" />
+    <input class="masked-input" data-pos="6" maxlength="1" />
+    <input class="masked-input" data-pos="7" maxlength="1" />
+    <input class="masked-input" data-pos="8" maxlength="1" />
+  </div>
+
+  <div style="margin-top: 16px;">
+    <button id="login-btn" onclick="attemptLogin()">Log in</button>
+  </div>
+
+  <script>
+    // The 'real' password known to the page:
+    const REAL_PASSWORD = "P@ssw0rd";
+
+    // randomize which inputs are enabled (for demo)
+    (function randomizeMasking() {
+      const inputs = document.querySelectorAll('input.masked-input');
+      // for demo: randomly enable ~ half of them
+      inputs.forEach(inp => {
+        const r = Math.random();
+        if (r < 0.5) {
+          inp.disabled = true;
+          inp.placeholder = '•';
+        } else {
+          inp.disabled = false;
+        }
+      });
+    })();
+
+    function attemptLogin() {
+      const inputs = Array.from(document.querySelectorAll('input.masked-input'));
+      let ok = true;
+      inputs.forEach(inp => {
+        const pos = parseInt(inp.getAttribute('data-pos'), 10);
+        if (!inp.disabled) {
+          const expected = REAL_PASSWORD.charAt(pos - 1);
+          if (inp.value !== expected) {
+            ok = false;
+          }
+        }
+      });
+      if (ok) {
+        location.href = 'success.html';
+      } else {
+        alert('Wrong masked password characters');
+      }
+    }
+  </script>
+</body>
+</html>
